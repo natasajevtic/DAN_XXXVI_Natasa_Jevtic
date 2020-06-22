@@ -5,7 +5,7 @@ using System.Threading;
 namespace Zadatak_1
 {
     /// <summary>
-    /// This program simulates generating matrixes using threads.
+    /// This program simulates generating matrices using threads.
     /// </summary>
     class Program
     {
@@ -14,7 +14,7 @@ namespace Zadatak_1
         static object locker = new object();
         static int[] oddNumbers;
         /// <summary>
-        /// This method initializes matrix, and after another method generated random numbers, this method perform filling created matrix with that numbers.
+        /// This method initializes matrix, and after another method generated random numbers, this method performs filling created matrix with that numbers.
         /// </summary>
         static void CreateMatrix()
         {
@@ -112,7 +112,7 @@ namespace Zadatak_1
             }
         }
         /// <summary>
-        /// This method waits to another tread to create and write array of odd numbers in txt, and after that displays numbers from file to console.
+        /// This method waits to another thread to create and write array of odd numbers in txt, and after that displays numbers from file to console.
         /// </summary>
         static void PrintOddNumbers()
         {
@@ -143,10 +143,12 @@ namespace Zadatak_1
             Thread generateNumbers = new Thread(GenerateNumbers);
             generateNumbers.Start();
             //blocking other threads while this two threads do not end their job
+            creatingMatrix.Join();
+            generateNumbers.Join();
             Thread oddNumbers = new Thread(CreateArrayOfOddNumbers);
             Thread printer = new Thread(PrintOddNumbers);
-            oddNumbers.Start();
             printer.Start();
+            oddNumbers.Start();
             Console.ReadLine();
         }
     }
